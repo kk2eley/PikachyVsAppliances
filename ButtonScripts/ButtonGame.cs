@@ -5,12 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class ButtonGame : MonoBehaviour
 {
-    void Update()
+    public void LoadGame()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Destroy(gameObject);
-            Time.timeScale = 1;
-        }
+        Destroy(gameObject);
+        Time.timeScale = 1;
     }
 }

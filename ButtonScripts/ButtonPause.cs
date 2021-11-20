@@ -8,7 +8,7 @@ public class ButtonPause : MonoBehaviour
     public GameObject menu;
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale != 0)
         {
             Time.timeScale = 0;
             Instantiate(menu);
