@@ -5,31 +5,9 @@ using UnityEngine;
 public class WavesController : MonoBehaviour
 {
     public int MaxZombies;
-    public GameObject[] ZombiesPrefub;
-    public GameObject[] Spawners;
+    public GameObject ZombiePrefub;
     private int ZombiesAmount = 0;
-    int WaveNum = 0;
-    private void Awake()
-    {
-        float fullChance = 0;
-        Dictionary<GameObject, float> zombs = new Dictionary<GameObject, float> { };
-        foreach (GameObject key in ZombiesPrefub)
-        {
-            if (key.GetComponent<ZombieController>().WaitUntilWave > WaveNum)
-            {
-                fullChance += key.GetComponent<ZombieController>().SpawnChance;
-                zombs.Add(key, key.GetComponent<ZombieController>().SpawnChance);
-            }
-        }
-        foreach (GameObject key in zombs.Keys)
-        {
-            zombs[key] /= fullChance / 100;
-        }
-        foreach (GameObject key in zombs.Keys)
-        {
-            zombs[key] /= fullChance / 100;
-        }
-    }
+
     public void KillZombie(GameObject zombie)
     {
         ZombiesAmount -= 1;
@@ -38,10 +16,12 @@ public class WavesController : MonoBehaviour
 
     private void Update()
     {
-        
-            //GameObject zombie = Instantiate(ZombiesPrefub);
-            //zombie.GetComponent<ZombieController>().Player = this.GetComponent<CameraFollow>().ObjToFollow;
-           // ZombiesAmount += 1;
-        
+        if (ZombiesAmount < MaxZombies)
+        {
+            GameObject zombie = Instantiate(ZombiePrefub);
+            zombie.GetComponent<ZombieController>().ObjectToFollow = 
+                this.GetComponent<CameraFollow>().ObjToFollow;
+            ZombiesAmount += 1;
+        }
     }
 }
