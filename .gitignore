@@ -1,1 +1,14 @@
-dir_to_ignore/Meta/
+CameraFollow.cs.meta
+EquipGunsFramework.cs.meta
+HealthSystem.cs.meta
+HeartPanel.cs.meta
+InventoryFramework.cs.meta
+PlayerController.cs.meta
+PikachyVsAppliances.meta
+SlotsController.cs.meta
+Spawner.cs.meta
+test.cs.meta
+WavesController.cs.meta
+WavesDirector.cs.meta
+WeaponData.cs.meta
+ZombieController.cs.meta
