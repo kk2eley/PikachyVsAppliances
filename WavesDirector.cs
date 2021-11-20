@@ -16,7 +16,7 @@ public class WavesDirector : MonoBehaviour
         {1, 3, 4, 5, -1},
         {1, 2, 3, 4, 5}
     };
-
+    
     public int Wave = 0;
     public int EnemiesOnWave = 5;
     public int EnemiesAmount = 0;
