@@ -6,19 +6,28 @@ public class HealthSystem : MonoBehaviour
 {
     public bool IsPlayer;
     public float Health;
+    public float MaxHealth;
+    public bool InfHealth;
     public float AddHealthPerSec;
+    private bool AlreadyDied = false;
     public void GiveDamage(float damage)
     {
-        Health -= damage;
-        if (Health <= 0)
+        if (InfHealth == false)
         {
-            if (IsPlayer)
+            Health -= damage;
+            if (Health <= 0 && AlreadyDied == false)
             {
-                ////restart game
-            }
-            else
-            {
-                Camera.main.GetComponent<Spawner>().DestroyEnemy(this.gameObject);
+                if (IsPlayer)
+                {
+                    ////restart game
+                }
+                else
+                {
+                    AlreadyDied = true;
+
+                    this.GetComponent<DropLootEntityScript>().Died();
+                    Camera.main.GetComponent<WavesController>().KillZombie(this.gameObject);
+                }
             }
         }
     }
@@ -26,7 +35,11 @@ public class HealthSystem : MonoBehaviour
     {
         if (Health > 0)
         {
-            Health += AddHealthPerSec * Time.deltaTime;
+            Health = Mathf.Min(MaxHealth,Health + AddHealthPerSec * Time.deltaTime);
+        }
+        else
+        {
+            GiveDamage(0);
         }
     }
 }

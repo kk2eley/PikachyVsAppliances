@@ -19,7 +19,7 @@ public class WavesController : MonoBehaviour
         if (ZombiesAmount < MaxZombies)
         {
             GameObject zombie = Instantiate(ZombiePrefub);
-            zombie.GetComponent<ZombieController>().ObjectToFollow = 
+            zombie.GetComponent<ZombieController>().Player = 
                 this.GetComponent<CameraFollow>().ObjToFollow;
             ZombiesAmount += 1;
         }

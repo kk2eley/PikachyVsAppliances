@@ -28,7 +28,7 @@ public class Spawner : MonoBehaviour
                 int enemyIndex = Random.Range(0, PrefabEnemies.Length);
                 GameObject enemy = Instantiate(PrefabEnemies[enemyIndex], spawnerPosition,
                     Quaternion.Euler(0, 0, 0));
-                enemy.GetComponent<ZombieController>().ObjectToFollow =
+                enemy.GetComponent<ZombieController>().Player =
                     Camera.main.GetComponent<CameraFollow>().ObjToFollow;
                 Camera.main.GetComponent<WavesDirector>().EnemiesAmount += 1;
                 // EnemiesAmount += 1;
