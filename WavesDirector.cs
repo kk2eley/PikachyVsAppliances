@@ -6,7 +6,10 @@ using UnityEngine;
 public class WavesDirector : MonoBehaviour
 {
     public GameObject[] Spawners;
-    private int[,] SpawnersOnWaves;
+    private int[,] SpawnersOnWaves = new int [,]{ {1,3,5},
+                                                  {2,3,4},
+                                                  {1,2,3},
+                                                  {1,3,4} };
     public int Wave = 0;
     public int EnemiesOnWave = 5;
     public int EnemiesAmount = 0;
