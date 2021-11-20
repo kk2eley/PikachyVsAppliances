@@ -30,6 +30,7 @@ public class Spawner : MonoBehaviour
                     Quaternion.Euler(0, 0, 0));
                 enemy.GetComponent<ZombieController>().Player =
                     Camera.main.GetComponent<CameraFollow>().ObjToFollow;
+                Camera.main.GetComponent<WavesDirector>().SpawnedEnemies += 1;
                 Camera.main.GetComponent<WavesDirector>().EnemiesAmount += 1;
                 // EnemiesAmount += 1;
                 curTime = EnemySpawnDelay;

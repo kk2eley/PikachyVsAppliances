@@ -8,20 +8,24 @@ public class WavesDirector : MonoBehaviour
     public GameObject[] Spawners;
 
     private readonly int[,] SpawnersOnWaves = new int[,]
-    { //Размер подмассива должен быть равен количеству спавнеров
+    {
+        //Размер подмассива должен быть равен количеству спавнеров
         {-1, 1, 2, 3, -1, -1},
         {2, 4, 5, 1, -1, -1},
         {1, 4, 5, -1, -1, -1},
-        {2, 3, 5, -1, -1,-1},
-        {1, 3, 4, 5, -1,-1},
+        {2, 3, 5, -1, -1, -1},
+        {1, 3, 4, 5, -1, -1},
         {0, 1, 2, 3, 4, 5}
     };
 
     public int Wave = 0;
+    private int nextWave = 0;
     public int EnemiesOnWave = 5;
+    public int SpawnedEnemies = 0;
     public int EnemiesAmount = 0;
     public float PauseAfterWave = 15f;
-    private float timeBeforeNextWave;
+    private float timeBeforeNextWave = 0;
+    public float Difficulty = 1.2f;
 
     void Start()
     {
@@ -34,38 +38,65 @@ public class WavesDirector : MonoBehaviour
         {
             if (timeBeforeNextWave <= 0)
             {
-                timeBeforeNextWave = PauseAfterWave;
                 if (Wave == 0)
                 {
-                    for (int i = 0; i < SpawnersOnWaves.GetLength(Wave); i++)
+                    if (nextWave == Wave)
                     {
-                        Debug.Log(i);
-                        if (SpawnersOnWaves[Wave, i] != -1)
-                            Spawners[i].GetComponent<Spawner>().CanSpawn = true;
+                        for (int i = 0; i < SpawnersOnWaves.GetLength(Wave); i++)
+                        {
+                            if (SpawnersOnWaves[Wave, i] != -1)
+                                Spawners[i].GetComponent<Spawner>().CanSpawn = true;
+                            nextWave += 1;
+                        }
+                    }
+                    else
+                    {
+                        nextWave += 1;
+                        timeBeforeNextWave = PauseAfterWave;
+                        EnemiesOnWave = Convert.ToInt32(Math.Round(EnemiesOnWave * Difficulty));
                     }
                 }
                 else if (Wave < SpawnersOnWaves.Length)
                 {
-                    for (int i = 0; i < SpawnersOnWaves.GetLength(Wave); i++)
+                    if (nextWave == Wave)
                     {
-                        if (SpawnersOnWaves[Wave, i] != -1)
-                            Spawners[i].GetComponent<Spawner>().CanSpawn = false;
-                    }
+                        timeBeforeNextWave = PauseAfterWave;
+                        for (int i = 0; i < SpawnersOnWaves.GetLength(Wave); i++)
+                        {
+                            if (SpawnersOnWaves[Wave, i] != -1)
+                                Spawners[i].GetComponent<Spawner>().CanSpawn = false;
+                        }
 
-                    Wave += 1;
-                    for (int i = 0; i < SpawnersOnWaves.GetLength(Wave); i++)
+                        for (int i = 0; i < SpawnersOnWaves.GetLength(Wave + 1); i++)
+                        {
+                            if (SpawnersOnWaves[Wave, i] != -1)
+                                Spawners[i].GetComponent<Spawner>().CanSpawn = true;
+                        }
+
+                        nextWave += 1;
+                        
+                    }
+                    else
                     {
-                        if (SpawnersOnWaves[Wave, i] != -1)
-                            Spawners[i].GetComponent<Spawner>().CanSpawn = true;
+                        nextWave += 1;
+                        timeBeforeNextWave = PauseAfterWave;
+                        EnemiesOnWave = Convert.ToInt32(Math.Round(EnemiesOnWave * Difficulty));
                     }
-
-                    EnemiesOnWave = Convert.ToInt32(Math.Round(EnemiesOnWave * 1.2));
                 }
                 else
                 {
-                    for (int i = 0; i < Spawners.Length; i++)
+                    if (nextWave == Wave)
                     {
-                        Spawners[i].GetComponent<Spawner>().CanSpawn = true;
+                        for (int i = 0; i < Spawners.Length; i++)
+                        {
+                            Spawners[i].GetComponent<Spawner>().CanSpawn = true;
+                        }
+                    }
+                    else
+                    {
+                        nextWave += 1;
+                        timeBeforeNextWave = PauseAfterWave;
+                        EnemiesOnWave = Convert.ToInt32(Math.Round(EnemiesOnWave * Difficulty));
                     }
                 }
             }
@@ -74,7 +105,7 @@ public class WavesDirector : MonoBehaviour
         }
         else
         {
-            if (EnemiesAmount >= EnemiesOnWave)
+            if (SpawnedEnemies >= EnemiesOnWave)
             {
                 for (int i = 0; i < Spawners.Length; i++)
                 {
