@@ -7,16 +7,16 @@ public class WavesDirector : MonoBehaviour
 {
     public GameObject[] Spawners;
 
-    private int[,] SpawnersOnWaves = new int[,]
-    {
-        {1, 2, 3, -1, -1},
-        {2, 4, 5, 1, -1},
-        {1, 4, 5, -1, -1},
-        {2, 3, 5, -1, -1},
-        {1, 3, 4, 5, -1},
-        {1, 2, 3, 4, 5}
+    private readonly int[,] SpawnersOnWaves = new int[,]
+    { //Размер подмассива должен быть равен количеству спавнеров
+        {-1, 1, 2, 3, -1, -1},
+        {2, 4, 5, 1, -1, -1},
+        {1, 4, 5, -1, -1, -1},
+        {2, 3, 5, -1, -1,-1},
+        {1, 3, 4, 5, -1,-1},
+        {0, 1, 2, 3, 4, 5}
     };
-    
+
     public int Wave = 0;
     public int EnemiesOnWave = 5;
     public int EnemiesAmount = 0;
@@ -39,6 +39,7 @@ public class WavesDirector : MonoBehaviour
                 {
                     for (int i = 0; i < SpawnersOnWaves.GetLength(Wave); i++)
                     {
+                        Debug.Log(i);
                         if (SpawnersOnWaves[Wave, i] != -1)
                             Spawners[i].GetComponent<Spawner>().CanSpawn = true;
                     }
